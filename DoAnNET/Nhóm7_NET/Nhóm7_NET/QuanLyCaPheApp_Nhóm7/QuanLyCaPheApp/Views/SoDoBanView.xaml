@@ -1,0 +1,18 @@
+<Page x:Class="QuanLyCaPheApp.Views.SoDoBanView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="So Do Ban" Background="{StaticResource BackgroundBrush}">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="So Do Ban - Toan Bo Khu Vuc"
+                   Style="{StaticResource SectionHeader}"/>
+        <!-- Same content as TrangChuView table matrix but full screen -->
+        <TextBlock Grid.Row="1" Text="(Click vao ban de xem chi tiet va thuc hien hanh dong)"
+                   Foreground="{StaticResource TextSecondaryBrush}" FontSize="12" Margin="0,0,0,12"/>
+        <Frame Grid.Row="2" x:Name="InnerFrame" NavigationUIVisibility="Hidden"/>
+    </Grid>
+</Page>

@@ -1,0 +1,105 @@
+<Page x:Class="QuanLyCaPheApp.Views.DatBanView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:vm="clr-namespace:QuanLyCaPheApp.ViewModels"
+      xmlns:conv="clr-namespace:QuanLyCaPheApp.Converters"
+      Title="Dat Ban" Background="{StaticResource BackgroundBrush}">
+    <Page.DataContext><vm:DatBanViewModel/></Page.DataContext>
+    <Page.Resources>
+        <conv:BoolToVisibilityConverter x:Key="BoolToVis"/>
+    </Page.Resources>
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="330"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- LEFT: Lich su dat ban -->
+        <Grid Grid.Column="0" Margin="0,0,16,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Margin="0,0,0,12">
+                <TextBlock Text="Lich Su Dat Ban" Style="{StaticResource SectionHeader}"/>
+                <Button Content="Them Dat Ban Moi" Style="{StaticResource SuccessButton}"
+                        HorizontalAlignment="Right" Command="{Binding ThemCommand}"/>
+            </Grid>
+            <DataGrid Grid.Row="1" ItemsSource="{Binding DanhSach}"
+                      Style="{StaticResource ModernDataGrid}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Ban" Binding="{Binding TenBan}" Width="80"/>
+                    <DataGridTextColumn Header="Ten Khach" Binding="{Binding TenKhachDat}" Width="*"/>
+                    <DataGridTextColumn Header="SDT" Binding="{Binding SoDienThoai}" Width="110"/>
+                    <DataGridTextColumn Header="So nguoi" Binding="{Binding SoNguoi}" Width="75"/>
+                    <DataGridTextColumn Header="Ngay dat" Binding="{Binding NgayDat, StringFormat='dd/MM HH:mm'}" Width="110"/>
+                    <DataGridTextColumn Header="Trang thai" Binding="{Binding TrangThaiText}" Width="100"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+
+        <!-- RIGHT: Form dat ban -->
+        <Border Grid.Column="1" Style="{StaticResource CardBorder}"
+                Visibility="{Binding IsFormOpen, Converter={StaticResource BoolToVis}}">
+            <StackPanel>
+                <TextBlock Text="Thong Tin Dat Ban" FontWeight="Bold" FontSize="14"
+                           Foreground="{StaticResource PrimaryBrush}" Margin="0,0,0,16"/>
+
+                <TextBlock Text="Chon ban *" Style="{StaticResource FormLabel}"/>
+                <ComboBox ItemsSource="{Binding DanhSachBan}" DisplayMemberPath="TenBan"
+                          SelectedValue="{Binding EditItem.MaBan}" SelectedValuePath="MaBan"
+                          Style="{StaticResource ModernComboBox}" Margin="0,0,0,12"/>
+
+                <TextBlock Text="Ten khach dat *" Style="{StaticResource FormLabel}"/>
+                <TextBox Text="{Binding EditItem.TenKhachDat, UpdateSourceTrigger=PropertyChanged}"
+                         Style="{StaticResource ModernTextBox}" Height="36" Margin="0,0,0,12"/>
+
+                <TextBlock Text="So dien thoai *" Style="{StaticResource FormLabel}"/>
+                <TextBox Text="{Binding EditItem.SoDienThoai, UpdateSourceTrigger=PropertyChanged}"
+                         Style="{StaticResource ModernTextBox}" Height="36" Margin="0,0,0,12"/>
+
+                <TextBlock Text="So nguoi" Style="{StaticResource FormLabel}"/>
+                <TextBox Text="{Binding EditItem.SoNguoi, UpdateSourceTrigger=PropertyChanged}"
+                         Style="{StaticResource ModernTextBox}" Height="36" Margin="0,0,0,12"/>
+
+                <TextBlock Text="Ngay gio dat" Style="{StaticResource FormLabel}"/>
+                <DatePicker SelectedDate="{Binding EditItem.NgayDat}"
+                            Height="34" Margin="0,0,0,12"/>
+
+                <TextBlock Text="Ghi chu" Style="{StaticResource FormLabel}"/>
+                <TextBox Text="{Binding EditItem.GhiChu, UpdateSourceTrigger=PropertyChanged}"
+                         Style="{StaticResource ModernTextBox}" Height="60"
+                         TextWrapping="Wrap" AcceptsReturn="True" Margin="0,0,0,16"/>
+
+                <TextBlock Text="{Binding ThongBao}" Foreground="{StaticResource SuccessBrush}"
+                           FontSize="12" Margin="0,0,0,10" TextWrapping="Wrap"/>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="8"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Content="Luu Dat Ban" Style="{StaticResource SuccessButton}"
+                            Height="38" Command="{Binding LuuCommand}"/>
+                    <Button Grid.Column="2" Content="Huy" Style="{StaticResource SecondaryButton}"
+                            Height="38" Command="{Binding HuyCommand}"/>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <!-- Placeholder when form closed -->
+        <Border Grid.Column="1" Style="{StaticResource CardBorder}"
+                Visibility="{Binding IsFormOpen, Converter={StaticResource BoolToVis}, ConverterParameter=invert}">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock Text="Quan Ly Dat Ban" FontSize="16" FontWeight="Bold"
+                           Foreground="{StaticResource PrimaryBrush}" HorizontalAlignment="Center"/>
+                <TextBlock Text="Bam 'Them Dat Ban Moi' de tao lich dat ban" FontSize="12"
+                           Foreground="{StaticResource TextSecondaryBrush}" Margin="0,12"
+                           HorizontalAlignment="Center" TextAlignment="Center"/>
+                <Button Content="Them Dat Ban Moi" Style="{StaticResource PrimaryButton}"
+                        Height="40" Command="{Binding ThemCommand}" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Page>
