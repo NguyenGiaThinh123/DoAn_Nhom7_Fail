@@ -1,0 +1,70 @@
+<Window x:Class="QuanLyCaPheApp.Views.DangNhapView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:QuanLyCaPheApp.ViewModels"
+        xmlns:conv="clr-namespace:QuanLyCaPheApp.Converters"
+        Title="Đăng Nhập - Quản Lý Quán Cà Phê"
+        Height="510" Width="420"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="{StaticResource BackgroundBrush}">
+    <Window.DataContext>
+        <vm:DangNhapViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <conv:BoolToVisibilityConverter x:Key="BoolToVis"/>
+        <conv:InvertBooleanConverter    x:Key="InvertBool"/>
+    </Window.Resources>
+    <Grid>
+        <!-- Nền màu cafe phía trên -->
+        <Border VerticalAlignment="Top" Height="190" Background="{StaticResource PrimaryBrush}"/>
+
+        <StackPanel VerticalAlignment="Center" Margin="50,0">
+            <!-- Logo -->
+            <StackPanel Margin="0,0,0,24">
+                <TextBlock Text="☕ CAFE MANAGER" FontSize="26" FontWeight="Bold"
+                           Foreground="White" HorizontalAlignment="Center"/>
+                <TextBlock Text="Hệ Thống Quản Lý Quán Cà Phê" FontSize="12"
+                           Foreground="#BCAAA4" HorizontalAlignment="Center" Margin="0,6,0,0"/>
+            </StackPanel>
+
+            <!-- Card đăng nhập -->
+            <Border Style="{StaticResource CardBorder}">
+                <StackPanel>
+                    <TextBlock Text="Đăng Nhập Hệ Thống" Style="{StaticResource SectionHeader}"
+                               HorizontalAlignment="Center" FontSize="16" Margin="0,0,0,20"/>
+
+                    <!-- Tên đăng nhập -->
+                    <TextBlock Text="Tên đăng nhập" Style="{StaticResource FormLabel}"/>
+                    <TextBox x:Name="txtUser"
+                             Text="{Binding TenDangNhap, UpdateSourceTrigger=PropertyChanged}"
+                             Style="{StaticResource ModernTextBox}" Height="36"
+                             KeyDown="Input_KeyDown"/>
+
+                    <!-- Mật khẩu -->
+                    <TextBlock Text="Mật khẩu" Style="{StaticResource FormLabel}" Margin="0,14,0,4"/>
+                    <PasswordBox x:Name="pbPass" Style="{StaticResource ModernPasswordBox}"
+                                 Height="36" KeyDown="Input_KeyDown"/>
+
+                    <!-- Thông báo lỗi -->
+                    <Border Background="#FFF3F3" CornerRadius="4" Padding="10,7"
+                            Margin="0,10,0,0"
+                            Visibility="{Binding CoThongBaoLoi, Converter={StaticResource BoolToVis}}">
+                        <TextBlock Text="{Binding ThongBaoLoi}" Foreground="{StaticResource DangerBrush}"
+                                   FontSize="12" TextWrapping="Wrap"/>
+                    </Border>
+
+                    <!-- Nút đăng nhập -->
+                    <Button Content="ĐĂNG NHẬP" Style="{StaticResource PrimaryButton}"
+                            Height="42" Margin="0,16,0,0" Click="btnDangNhap_Click"
+                            IsEnabled="{Binding DangXuLy, Converter={StaticResource InvertBool}}"/>
+
+                    <TextBlock FontSize="10" Foreground="{StaticResource TextSecondaryBrush}"
+                               HorizontalAlignment="Center" Margin="0,14,0,0">
+                        <Run Text="Tài khoản mặc định: admin | Mật khẩu: 123456"/>
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </Grid>
+</Window>
